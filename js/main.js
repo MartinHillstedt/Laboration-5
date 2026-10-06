@@ -33,8 +33,23 @@ let history = [];
  * @returns {boolean}
  */
 function validateForm() {
+    // Rensa tidigare felmeddelanden
+    errors = [];
+    
     // Kontrollera formulärets obligatoriska fält
+    if (fullnameInput.value.trim() === "") {
+        errors.push ("Namn måste anges");
+    }
 
+    if (emailInput.value.trim() === "") {
+        errors.push ("Ange din e-postadress")
+    }
+
+    if (phoneInput.ariaValueText.trim() === "") {
+        errors.push ("Telefonnummer krävs")
+    }
+
+   
     // Visa eventuella felmeddelanden
 
     // Returnera resultatet (true eller false) av valideringen

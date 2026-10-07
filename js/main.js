@@ -21,7 +21,7 @@ const errorList = document.querySelector("#errorlist");
 const historySection = document.querySelector("#history");
 const deleteHistoryButton = document.querySelector("#delete");
 
-
+const storage_Key = "cardHistory"
 // Array som används för felmeddelanden
 let errors = [];
 
@@ -55,7 +55,8 @@ function validateForm() {
 
 
     // Returnera resultatet (true eller false) av valideringen
-    
+    return errors.length === 0;
+
 }
 
 
@@ -95,15 +96,27 @@ function createStudentCard() {
 
 
     // Lägg till studentkortet i historiken
+    const newCard = {
+        fullname: fullname,
+        email: email, 
+        phone: phone, 
+        font: font
+    };
+    history.unshift(newCard);
 
     // Spara och uppdatera historiken
+    saveHistory();
+    renderHistory();
+    
 }
 
 
 /**
  * Sparar historiken i localStorage.
+ *
  */
 function saveHistory() {
+    localStorage.setItem(storage_Key, JSON.stringify (history))
     // Spara history i localStorage
 }
 

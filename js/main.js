@@ -51,8 +51,11 @@ function validateForm() {
 
    
     // Visa eventuella felmeddelanden
+    displayErrors();
+
 
     // Returnera resultatet (true eller false) av valideringen
+    
 }
 
 
@@ -61,9 +64,16 @@ function validateForm() {
  */
 function displayErrors() {
     // Rensa tidigare felmeddelanden
-
+    errorList.innerHTML = "";
     // Skriv ut aktuella felmeddelanden till DOM
-}
+    errors.forEach(function (errorMessage) {
+        const listItem = document.createElement ("li")
+        listItem.textContent = "errorMessage";
+        errorList.appendChild (listItem);
+    });
+
+}   
+
 
 
 /**

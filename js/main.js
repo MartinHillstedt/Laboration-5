@@ -30,7 +30,7 @@ let history = [];
 
 /**
  * Validerar formulärets inmatning.
- * @returns {boolean}
+ * 
  */
 function validateForm() {
     // Rensa tidigare felmeddelanden
@@ -45,7 +45,7 @@ function validateForm() {
         errors.push ("Ange din e-postadress")
     }
 
-    if (phoneInput.ariaValueText.trim() === "") {
+    if (phoneInput.value.trim() === "") {
         errors.push ("Telefonnummer krävs")
     }
 
@@ -69,7 +69,7 @@ function displayErrors() {
     // Skriv ut aktuella felmeddelanden till DOM
     errors.forEach(function (errorMessage) {
         const listItem = document.createElement ("li")
-        listItem.textContent = "errorMessage";
+        listItem.textContent = errorMessage;
         errorList.appendChild (listItem);
     });
 
@@ -148,7 +148,7 @@ function renderHistory() {
  */
 function clearForm() {
     // Återställ formulär och studentkort
-
+form.reset();
     // Rensa eventuella felmeddelanden
 }
 
@@ -177,6 +177,7 @@ form.addEventListener("submit", function (event){
 });
 
 // När användaren klickar på "Rensa"
+clearButton.addEventListener ("click", clearForm);
 
 
 // När användaren klickar på "Radera historik"

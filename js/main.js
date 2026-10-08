@@ -137,9 +137,36 @@ function loadHistory() {
  * Visar historiken på sidan.
  */
 function renderHistory() {
+
     // Rensa tidigare visad historik
 
+    historySection.innerHTML = "";
+
     // Skriv ut innehållet i history till DOM
+    history.forEach(function (card) {
+        const cardElement = document.createElement("div");
+        cardElement.classList.add ("card")
+        cardElement.style.fontFamily = card.font;
+
+        const nameElement = document.createElement("div")
+        nameElement.classList.add ("card-info");
+        nameElement.textContent = card.fullname;
+
+        const emailElement = document.createElement("div")
+        emailElement.classList.add ("card-info");
+        emailElement.textContent = card.email;
+
+        const phoneElement = document.createElement("div")
+        phoneElement.classList.add ("card-info");
+        phoneElement.textContent = card.phone;
+
+        cardElement.appendChild(nameElement);
+        cardElement.appendChild(emailElement);
+        cardElement.appendChild(phoneElement);
+
+        HistorySection.appendChild(cardElement);
+
+    });
 }
 
 

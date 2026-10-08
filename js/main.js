@@ -21,7 +21,7 @@ const errorList = document.querySelector("#errorlist");
 const historySection = document.querySelector("#history");
 const deleteHistoryButton = document.querySelector("#delete");
 
-const storage_Key = "cardHistory"
+const storageKey = "cardHistory"
 // Array som används för felmeddelanden
 let errors = [];
 
@@ -125,7 +125,7 @@ function saveHistory() {
  * Läser in tidigare historik från localStorage.
  */
 function loadHistory() {
-    const savedHistory = localStorage.getItem (storage_Key);
+    const savedHistory = localStorage.getItem (storageKey);
 
     // Hämta eventuell sparad historik
 
@@ -181,7 +181,7 @@ clearButton.addEventListener ("click", clearForm);
 
 
 // När användaren klickar på "Radera historik"
-
+deleteHistoryButton.addEventListener ("click", deleteHistory);
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik

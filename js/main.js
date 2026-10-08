@@ -107,7 +107,7 @@ function createStudentCard() {
     // Spara och uppdatera historiken
     saveHistory();
     renderHistory();
-    
+
 }
 
 
@@ -125,6 +125,8 @@ function saveHistory() {
  * Läser in tidigare historik från localStorage.
  */
 function loadHistory() {
+    const savedHistory = localStorage.getItem (storage_Key);
+
     // Hämta eventuell sparad historik
 
     // Uppdatera history
@@ -166,7 +168,13 @@ function deleteHistory() {
 // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
+form.addEventListener("submit", function (event){
+    event.preventDefault();
 
+    if (validateForm()) {
+        createStudentCard();
+    }
+});
 
 // När användaren klickar på "Rensa"
 

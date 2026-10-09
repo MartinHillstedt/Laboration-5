@@ -116,7 +116,7 @@ function createStudentCard() {
  *
  */
 function saveHistory() {
-    localStorage.setItem(storage_Key, JSON.stringify (history))
+    localStorage.setItem(storageKey, JSON.stringify (history));
     // Spara history i localStorage
 }
 
@@ -125,9 +125,10 @@ function saveHistory() {
  * Läser in tidigare historik från localStorage.
  */
 function loadHistory() {
-    const savedHistory = localStorage.getItem (storageKey);
+    
 
     // Hämta eventuell sparad historik
+    const savedHistory = localStorage.getItem (storageKey);
 
     // Uppdatera history
 }
@@ -164,7 +165,7 @@ function renderHistory() {
         cardElement.appendChild(emailElement);
         cardElement.appendChild(phoneElement);
 
-        HistorySection.appendChild(cardElement);
+        historySection.appendChild(cardElement);
 
     });
 }
@@ -184,9 +185,13 @@ form.reset();
  * Raderar hela historiken.
  */
 function deleteHistory() {
+    
     // Radera sparad historik
+    localStorage.removeItem (StorageKey)
 
     // Uppdatera history och visningen på sidan
+    history = [];
+    renderHistory ();
 }
 
 
@@ -212,3 +217,7 @@ deleteHistoryButton.addEventListener ("click", deleteHistory);
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik
+document.addEventListener("DOMContentLoaded", function () {
+    loadHistory();
+    renderHistory();
+});

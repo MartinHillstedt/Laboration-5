@@ -21,7 +21,7 @@ const errorList = document.querySelector("#errorlist");
 const historySection = document.querySelector("#history");
 const deleteHistoryButton = document.querySelector("#delete");
 
-const storageKey = "cardHistory"
+const storageKey = "cardHistory";
 // Array som används för felmeddelanden
 let errors = [];
 
@@ -30,194 +30,175 @@ let history = [];
 
 /**
  * Validerar formulärets inmatning.
- * 
+ * @returns {boolean} true om alla fält i formuläret är ifyllda, annars false.
  */
 function validateForm() {
-    // Rensa tidigare felmeddelanden
-    errors = [];
-    
-    // Kontrollera formulärets obligatoriska fält
-    if (fullnameInput.value.trim() === "") {
-        errors.push ("Namn måste anges");
-    }
+  // Rensa tidigare felmeddelanden
+  errors = [];
 
-    if (emailInput.value.trim() === "") {
-        errors.push ("Ange din e-postadress")
-    }
+  // Kontrollera formulärets obligatoriska fält
+  if (fullnameInput.value.trim() === "") {
+    errors.push("Namn måste anges");
+  }
 
-    if (phoneInput.value.trim() === "") {
-        errors.push ("Telefonnummer krävs")
-    }
+  if (emailInput.value.trim() === "") {
+    errors.push("Ange din e-postadress");
+  }
 
-   
-    // Visa eventuella felmeddelanden
-    displayErrors();
+  if (phoneInput.value.trim() === "") {
+    errors.push("Ange ditt telefonnummer");
+  }
 
+  // Visa eventuella felmeddelanden
+  displayErrors();
 
-    // Returnera resultatet (true eller false) av valideringen
-    return errors.length === 0;
-
+  // Returnera resultatet (true eller false) av valideringen
+  return errors.length === 0;
 }
-
 
 /**
  * Visar felmeddelanden på sidan.
  */
 function displayErrors() {
-    // Rensa tidigare felmeddelanden
-    errorList.innerHTML = "";
-    // Skriv ut aktuella felmeddelanden till DOM
-    errors.forEach(function (errorMessage) {
-        const listItem = document.createElement ("li")
-        listItem.textContent = errorMessage;
-        errorList.appendChild (listItem);
-    });
-
-}   
-
-
+  // Rensa tidigare felmeddelanden
+  errorList.innerHTML = "";
+  // Skriv ut aktuella felmeddelanden till DOM
+  errors.forEach(function (errorMessage) {
+    const listItem = document.createElement("li");
+    listItem.textContent = errorMessage;
+    errorList.appendChild(listItem);
+  });
+}
 
 /**
  * Skapar ett studentkort och visar det på sidan.
  */
 function createStudentCard() {
-    // Hämta information från formuläret
-    const fullname = fullnameInput.value.trim();
-    const email = emailInput.value.trim();
-    const phone = phoneInput.value.trim();
-    const font = fontSelect.value;     
-    // Uppdatera studentkortet
-    previewFullname.textContent = fullname;
-    previewEmail.textContent = email;
-    previewPhone.textContent = phone;
-    previewFullname.style.fontFamily = font;
-    previewEmail.style.fontFamily = font;
-    previewPhone.style.fontFamily = font;
+  // Hämta information från formuläret
+  const fullname = fullnameInput.value.trim();
+  const email = emailInput.value.trim();
+  const phone = phoneInput.value.trim();
+  const font = fontSelect.value;
+  // Uppdatera studentkortet
+  previewFullname.textContent = fullname;
+  previewEmail.textContent = email;
+  previewPhone.textContent = phone;
+  previewFullname.style.fontFamily = font;
+  previewEmail.style.fontFamily = font;
+  previewPhone.style.fontFamily = font;
 
+  // Lägg till studentkortet i historiken
+  const newCard = {
+    fullname: fullname,
+    email: email,
+    phone: phone,
+    font: font,
+  };
+  history.unshift(newCard);
 
-    // Lägg till studentkortet i historiken
-    const newCard = {
-        fullname: fullname,
-        email: email, 
-        phone: phone, 
-        font: font
-    };
-    history.unshift(newCard);
-
-    // Spara och uppdatera historiken
-    saveHistory();
-    renderHistory();
-
+  // Spara och uppdatera historiken
+  saveHistory();
+  renderHistory();
 }
-
 
 /**
  * Sparar historiken i localStorage.
- *
  */
 function saveHistory() {
-    localStorage.setItem(storageKey, JSON.stringify (history));
-    // Spara history i localStorage
+  localStorage.setItem(storageKey, JSON.stringify(history));
 }
-
 
 /**
  * Läser in tidigare historik från localStorage.
  */
 function loadHistory() {
-    
+  // Hämta eventuell sparad historik
+  const savedHistory = localStorage.getItem(storageKey);
 
-    // Hämta eventuell sparad historik
-    const savedHistory = localStorage.getItem (storageKey);
-
-    // Uppdatera history
+  // Uppdatera history
+  if (savedHistory !== null) {
+    history = JSON.parse(savedHistory);
+  }
 }
-
 
 /**
  * Visar historiken på sidan.
  */
 function renderHistory() {
+  // Rensa tidigare visad historik
+  historySection.innerHTML = "";
 
-    // Rensa tidigare visad historik
+  // Skriv ut innehållet i history till DOM
+  history.forEach(function (card) {
+    const cardElement = document.createElement("div");
+    cardElement.classList.add("card");
+    cardElement.style.fontFamily = card.font;
 
-    historySection.innerHTML = "";
+    const nameElement = document.createElement("div");
+    nameElement.classList.add("card-info");
+    nameElement.textContent = card.fullname;
 
-    // Skriv ut innehållet i history till DOM
-    history.forEach(function (card) {
-        const cardElement = document.createElement("div");
-        cardElement.classList.add ("card")
-        cardElement.style.fontFamily = card.font;
+    const emailElement = document.createElement("div");
+    emailElement.classList.add("card-info");
+    emailElement.textContent = card.email;
 
-        const nameElement = document.createElement("div")
-        nameElement.classList.add ("card-info");
-        nameElement.textContent = card.fullname;
+    const phoneElement = document.createElement("div");
+    phoneElement.classList.add("card-info");
+    phoneElement.textContent = card.phone;
 
-        const emailElement = document.createElement("div")
-        emailElement.classList.add ("card-info");
-        emailElement.textContent = card.email;
+    cardElement.appendChild(nameElement);
+    cardElement.appendChild(emailElement);
+    cardElement.appendChild(phoneElement);
 
-        const phoneElement = document.createElement("div")
-        phoneElement.classList.add ("card-info");
-        phoneElement.textContent = card.phone;
-
-        cardElement.appendChild(nameElement);
-        cardElement.appendChild(emailElement);
-        cardElement.appendChild(phoneElement);
-
-        historySection.appendChild(cardElement);
-
-    });
+    historySection.appendChild(cardElement);
+  });
 }
-
 
 /**
- * Rensar formulär, aktuellt studentkort och felmeddelanden.
+ * Rensar formulär och felmeddelanden.
  */
 function clearForm() {
-    // Återställ formulär och studentkort
-form.reset();
-    // Rensa eventuella felmeddelanden
+  // Återställ formulär
+  form.reset();
+  // Rensa eventuella felmeddelanden
+  errors = [];
+  displayErrors();
 }
-
 
 /**
  * Raderar hela historiken.
  */
 function deleteHistory() {
-    
-    // Radera sparad historik
-    localStorage.removeItem (StorageKey)
+  // Radera sparad historik
+  localStorage.removeItem(storageKey);
 
-    // Uppdatera history och visningen på sidan
-    history = [];
-    renderHistory ();
+  // Uppdatera history och visningen på sidan
+  history = [];
+  renderHistory();
 }
-
 
 // Eventlyssnare
 
 // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
-form.addEventListener("submit", function (event){
-    event.preventDefault();
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-    if (validateForm()) {
-        createStudentCard();
-    }
+  if (validateForm()) {
+    createStudentCard();
+  }
 });
 
 // När användaren klickar på "Rensa"
-clearButton.addEventListener ("click", clearForm);
-
+clearButton.addEventListener("click", clearForm);
 
 // När användaren klickar på "Radera historik"
-deleteHistoryButton.addEventListener ("click", deleteHistory);
+deleteHistoryButton.addEventListener("click", deleteHistory);
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik
 document.addEventListener("DOMContentLoaded", function () {
-    loadHistory();
-    renderHistory();
+  loadHistory();
+  renderHistory();
 });
